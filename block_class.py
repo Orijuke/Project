@@ -12,30 +12,27 @@ def load_image(name):
 
 
 cell_size = 50
-size = width, height = 1200, 600
+level_length = 72
+level_height = 12
+size = width, height = 3600, 600
 screen = pygame.display.set_mode(size)
 clock = pygame.time.Clock()
 FPS = 30
 
 def generate_level():
-    y_last = height // cell_size - 3
-    generated_map = [[-1 for i in range(width // cell_size)] for j in range(height // cell_size)]
-    for x in range(width // cell_size):
+    y_last = level_height - 3
+    generated_map = [[-1 for i in range(level_length)] for j in range(level_height)]
+    for x in range(level_length):
         y = random.choice([y_last - 1, y_last, y_last + 1])
         print(y)
-        while height // cell_size < y + 1 or y + 1 < 1:
+        while height // cell_size < y + 1 or y + 1 < 5:
             print(y)
             y = random.choice([y_last - 1, y_last, y_last + 1])
         generated_map[y - 1][x] = 1
-        for n_y in range(y, height // cell_size):
+        for n_y in range(y, level_height):
             generated_map[n_y][x] = 0
         y_last = y
     return generated_map
-
-generate_level()
-
-
-
 
 
 class Block(pygame.sprite.Sprite):
@@ -62,8 +59,8 @@ all_sprites = pygame.sprite.Group()
 level_map = generate_level()
 
 blocks = []
-for y in range(0, height // cell_size):
-    for x in range(width // cell_size):
+for y in range(level_height):
+    for x in range(level_length):
         if level_map[y][x] != -1:
             block = Block(x, y, level_map[y][x])
             all_sprites.add(block)
