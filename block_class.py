@@ -5,7 +5,7 @@ import pygame
 
 
 def load_image(name):
-    fullname = path.join('data', name)
+    fullname = path.join('textures', name)
     image = pygame.image.load(fullname).convert_alpha()
     return image
 
@@ -22,11 +22,11 @@ class Block(pygame.sprite.Sprite):
 
     def __init__(self, x, y, grassed=False):
         super().__init__()
-        if type:
+        if grassed:
             self.image = Block.grass_image
         else:
             self.image = Block.dirt_image
-        self.rect = self.image.det_rect()
+        self.rect = self.image.get_rect()
         self.rect.x = x * 50
         self.rect.y = y * 50
 
