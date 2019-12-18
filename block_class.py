@@ -4,28 +4,30 @@ import random
 
 import pygame
 
-
+cell_size = 20
 def load_image(name):
     fullname = path.join('textures', name)
     image = pygame.image.load(fullname).convert_alpha()
+    image = pygame.transform.scale(image, (cell_size, cell_size))
     return image
 
 
-cell_size = 50
-level_length = 72
-level_height = 12
-size = width, height = 3600, 600
+
+
+size = width, height = 1200, 800
 screen = pygame.display.set_mode(size)
 clock = pygame.time.Clock()
 FPS = 30
+level_length = width // cell_size
+level_height = height // cell_size
 
 def generate_level():
-    y_last = level_height - 3
+    y_last = level_height - 10
     generated_map = [[-1 for i in range(level_length)] for j in range(level_height)]
     for x in range(level_length):
         y = random.choice([y_last - 1, y_last, y_last + 1])
         print(y)
-        while height // cell_size < y + 1 or y + 1 < 5:
+        while level_height < y + 1 or y + 1 < 5:
             print(y)
             y = random.choice([y_last - 1, y_last, y_last + 1])
         generated_map[y - 1][x] = 1
@@ -47,8 +49,8 @@ class Block(pygame.sprite.Sprite):
         else:
             self.image = Block.dirt_image
         self.rect = self.image.get_rect()
-        self.rect.x = x * 50
-        self.rect.y = y * 50
+        self.rect.x = x * cell_size
+        self.rect.y = y * cell_size
 
     def set_pos(self, x, y):
         self.rect.x = x * cell_size
@@ -73,7 +75,7 @@ while is_running:
             is_running = False
         all_sprites.update(event)
     clock.tick(FPS)
-    screen.fill(pygame.Color('white'))
+    screen.fill(pygame.Color('lightskyblue'))
     all_sprites.draw(screen)
     pygame.display.flip()
 
