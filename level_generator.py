@@ -12,9 +12,9 @@ def generate_level():
     y_last = level_height - 10
     generated_map = [[-1 for i in range(level_length)] for j in range(level_height)]
     for x in range(level_length):
-        y = random.choice([y_last - 1, y_last, y_last + 1])
+        y = random.choice([y_last - 1, y_last, y_last + 1, y_last, y_last, y_last])
         while level_height < y + 1 or y + 1 < 5:
-            y = random.choice([y_last - 1, y_last, y_last + 1])
+            y = random.choice([y_last - 1, y_last, y_last + 1, y_last, y_last, y_last])
         generated_map[y - 1][x] = 1
         for n_y in range(y, level_height):
             generated_map[n_y][x] = 0

@@ -20,6 +20,3 @@ class Block(pygame.sprite.Sprite):
     def set_pos(self, x, y):
         self.rect.x = x * cell_size
         self.rect.y = y * cell_size
-
-
-
