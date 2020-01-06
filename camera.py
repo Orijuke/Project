@@ -12,6 +12,6 @@ class Camera:
         obj.rect.y += self.dy / cell_size
 
     # позиционировать камеру на объекте target
-    def update(self, target):
-        self.dx = -(target.rect.x + target.rect.w // 2 - width // 2)
-        self.dy = -(target.rect.y + target.rect.h // 2 - height // 2)
+    def update(self, dx, dy):
+        self.dx = dx
+        self.dy = dy

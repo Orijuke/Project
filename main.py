@@ -45,6 +45,8 @@ while is_running:
             x, y = player.x, player.y
             new_x = x
             new_y = y
+            dx = new_x - x
+            dy = new_y - y
             if event.key == pygame.K_LEFT:
                 new_x, new_y = player.x - 1, player.y
             if event.key == pygame.K_RIGHT:
@@ -54,7 +56,7 @@ while is_running:
             if event.key == pygame.K_DOWN:
                 new_x, new_y = player.x, player.y + 1
             player.move(new_x, new_y)
-            camera.update(player)
+            camera.update(dx, dy)
             for sprite in block_sprites:
                 camera.apply(sprite)
             body_sprites.update(event)
