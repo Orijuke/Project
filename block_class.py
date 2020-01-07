@@ -20,3 +20,18 @@ class Block(pygame.sprite.Sprite):
     def set_pos(self, x, y):
         self.rect.x = x * cell_size
         self.rect.y = y * cell_size
+
+class Spike(pygame.sprite.Sprite):
+
+    spike_image = load_image("spike.png")
+
+    def __init__(self, x, y):
+        super().__init__()
+        self.image = Spike.spike_image
+        self.rect = self.image.get_rect()
+        self.rect.x = x * cell_size
+        self.rect.y = y * cell_size
+
+    def set_pos(self, x, y):
+        self.rect.x = x * cell_size
+        self.rect.y = y * cell_size

@@ -2,9 +2,9 @@ from os import path
 import pygame
 from load_image_function import load_image, cell_size, size, width, height
 import random
-from block_class import Block
+from block_class import Block, Spike
 
-level_length = width // cell_size
+level_length = width * 4 // cell_size
 level_height = height // cell_size
 
 
@@ -31,3 +31,14 @@ for y in range(level_height):
         if level_map[y][x] != -1:
             block = Block(x, y, level_map[y][x])
             block_sprites.add(block)
+
+spikes = []
+for x in range(level_length):
+    for y in range(level_height):
+        if level_map[y + 1][x] == 1:
+            need_to_be_placed = random.randrange(0, 5)
+            if need_to_be_placed == 0:
+                spike = Spike(x, y)
+                block_sprites.add(spike)
+                level_map[y][x] = 2
+            break
