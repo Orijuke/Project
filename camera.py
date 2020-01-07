@@ -7,7 +7,7 @@ class Camera:
 
     # сдвинуть объект obj на смещение камеры
     def apply(self, obj):
-        obj.rect.x += self.dx / cell_size
+        obj.rect.x -= self.dx
 
     # позиционировать камеру на объекте target
     def update(self, dx):

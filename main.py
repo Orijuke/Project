@@ -15,35 +15,33 @@ FPS = 30
 camera = Camera()
 
 
+step = 1
+
+step_dict = {
+                pygame.K_RIGHT: (step, 0),
+                pygame.K_LEFT: (-step, 0),
+                pygame.K_UP: (0, -step),
+                pygame.K_DOWN: (0, step)
+            }
 is_running = True
 while is_running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             is_running = False
-        if event.type == pygame.KEYDOWN:
-            x, y = player.rect.x, player.rect.y
-            new_x = x
-            new_y = y
-            if event.key == pygame.K_LEFT:
-                new_x, new_y = player.rect.x + 100, player.rect.y
-            if event.key == pygame.K_RIGHT:
-                new_x, new_y = player.rect.x - 100, player.rect.y
-            if event.key == pygame.K_UP:
-                new_x, new_y = player.rect.x, player.rect.y + 100
-            if event.key == pygame.K_DOWN:
-                new_x, new_y = player.rect.x, player.rect.y - 100
-            dx = new_x - x
-            dy = new_y - y
-            player.move(dx, dy)
-            camera.update(dx)
+    clock.tick(FPS)
+    pressed = pygame.key.get_pressed()
+    for key, shift in step_dict.items():
+        if pressed[key]:
+            player.rect.y += shift[1]
+            camera.update(shift[0])
             for sprite in block_sprites:
                 camera.apply(sprite)
             block_sprites.update(event)
-    body_sprites.update(event)
-    clock.tick(FPS)
+            body_sprites.update(event)
     screen.fill(pygame.Color('lightskyblue'))
 
     # обновляем положение всех спрайтов
 
     block_sprites.draw(screen)
+    body_sprites.draw(screen)
     pygame.display.flip()

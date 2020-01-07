@@ -14,11 +14,10 @@ class Player(pygame.sprite.Sprite):
         self.rect.y = y * cell_size
         self.health = 100
 
-    def move(self, dx, dy):
-        self.rect.x += dx
+    def move(self, dy):
         self.rect.y += dy
 
 
-player = Player(0, 0)
+player = Player(20, 17)
 body_sprites = pygame.sprite.Group()
 body_sprites.add(player)
