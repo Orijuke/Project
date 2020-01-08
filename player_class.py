@@ -12,7 +12,7 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = x * cell_size
         self.rect.y = y * cell_size
-        self.health = 100
+        self.health = 2000
 
     def move(self, dy):
         self.rect.y += dy
