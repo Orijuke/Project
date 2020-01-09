@@ -16,7 +16,7 @@ g = 10
 camera = Camera()
 
 
-step = 10
+step = 4
 
 step_dict = {
                 pygame.K_RIGHT: (step, 0),
@@ -75,7 +75,7 @@ while is_running:
             player.health += 80
             player.score /= 1.002
         if pygame.sprite.spritecollideany(player, portal_sprites):
-            pass
+            is_running = False
 
     screen.fill(pygame.Color('lightskyblue'))
 
