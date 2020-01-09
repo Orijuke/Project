@@ -1,7 +1,7 @@
 from os import path
 from random import randrange
 import random
-from level_generator import block_sprites, spike_sprites, kit_sprites
+from level_generator import block_sprites, spike_sprites, kit_sprites, portal_sprites, level_map
 from player_class import player, body_sprites
 import pygame
 
@@ -16,7 +16,7 @@ g = 10
 camera = Camera()
 
 
-step = 2
+step = 10
 
 step_dict = {
                 pygame.K_RIGHT: (step, 0),
@@ -24,6 +24,10 @@ step_dict = {
                 pygame.K_UP: (0, -step),
                 pygame.K_DOWN: (0, step)
             }
+
+is_jump = False
+go_down = False
+jump_pos = 0
 is_running = True
 while is_running:
     for event in pygame.event.get():
@@ -35,33 +39,43 @@ while is_running:
         if pressed[key]:
             player.rect.y += shift[1]
             camera.update(shift[0])
+            player.x += shift[0] / cell_size
+            player.y += shift[1] / cell_size
             for sprite in block_sprites:
                 camera.apply(sprite)
             for sprite in spike_sprites:
                 camera.apply(sprite)
             for sprite in kit_sprites:
                 camera.apply(sprite)
-            block_sprites.update(event)
-            spike_sprites.update(event)
-            kit_sprites.update(event)
-            body_sprites.update(event)
+            for sprite in portal_sprites:
+                camera.apply(sprite)
         if pygame.sprite.spritecollideany(player, block_sprites):
             player.rect.y -= shift[1]
             camera.update(-shift[0])
+            player.x -= shift[0] / cell_size
+            player.y -= shift[1] / cell_size
             for sprite in block_sprites:
                 camera.apply(sprite)
             for sprite in spike_sprites:
                 camera.apply(sprite)
             for sprite in kit_sprites:
                 camera.apply(sprite)
-            block_sprites.update(event)
-            spike_sprites.update(event)
-            kit_sprites.update(event)
-            body_sprites.update(event)
+            for sprite in portal_sprites:
+                camera.apply(sprite)
+        block_sprites.update(event)
+        spike_sprites.update(event)
+        kit_sprites.update(event)
+        portal_sprites.update(event)
+        body_sprites.update(event)
+
         if pygame.sprite.spritecollideany(player, spike_sprites):
             player.health -= 20
+            player.score *= 1.002
         if pygame.sprite.spritecollideany(player, kit_sprites):
             player.health += 80
+            player.score /= 1.002
+        if pygame.sprite.spritecollideany(player, portal_sprites):
+            pass
 
     screen.fill(pygame.Color('lightskyblue'))
 
@@ -70,6 +84,22 @@ while is_running:
     block_sprites.draw(screen)
     spike_sprites.draw(screen)
     kit_sprites.draw(screen)
+    portal_sprites.draw(screen)
     body_sprites.draw(screen)
-    print(player.health)
+    for i in range(len(level_map)):
+        for j in range(len(level_map[i])):
+            color = 'lightskyblue'
+            if level_map[i][j] == 0:
+                color = 'sienna'
+            if level_map[i][j] == 1:
+                color = 'darkgreen'
+            if level_map[i][j] == 2:
+                color = 'deeppink'
+            if level_map[i][j] == 3:
+                color = 'blue'
+            if level_map[i][j] == 4 or level_map[i][j] == 5:
+                color = 'yellow'
+            pygame.draw.rect(screen, pygame.Color(color), (20 + j * 2, 20 + i * 2, 2, 2))
+    pygame.draw.rect(screen, pygame.Color('red'), (20 + player.x * 2, 20 + player.y * 2, 2, 2))
+    pygame.draw.rect(screen, pygame.Color('black'), (20 + player.x * 2, 10, 2, 6))
     pygame.display.flip()

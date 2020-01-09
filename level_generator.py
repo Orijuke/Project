@@ -2,9 +2,9 @@ from os import path
 import pygame
 from load_image_function import load_image, cell_size, size, width, height
 import random
-from block_class import Block, Spike, Kit
+from block_class import Block, Spike, Kit, Portal
 
-### air=-1 dirt=0 grass=1 spike=2 kit=3
+### air=-1 dirt=0 grass=1 spike=2 kit=3 portal=4 portal1=5
 
 level_length = width * 4 // cell_size
 level_height = height // cell_size
@@ -27,6 +27,7 @@ def generate_level():
 block_sprites = pygame.sprite.Group()
 spike_sprites = pygame.sprite.Group()
 kit_sprites = pygame.sprite.Group()
+portal_sprites = pygame.sprite.Group()
 level_map = generate_level()
 
 blocks = []
@@ -51,9 +52,22 @@ kits = []
 for x in range(level_length):
     for y in range(level_height):
         if level_map[y + 1][x] == 1:
-            need_to_be_placed = random.randrange(0, 100)
-            if need_to_be_placed == 0:
-                kit = Kit(x, y)
-                kit_sprites.add(kit)
-                level_map[y][x] = 3
+            if level_map[y][x] != 2:
+                need_to_be_placed = random.randrange(0, 20)
+                if need_to_be_placed == 0:
+                    kit = Kit(x, y)
+                    kit_sprites.add(kit)
+                    level_map[y][x] = 3
             break
+
+portals = []
+for y in range(level_height):
+    if level_map[y + 2][-width // cell_size // 2] == 1:
+        print(True)
+        portal = Portal(level_length - width // cell_size // 2, y, True)
+        portal1 = Portal(level_length - width // cell_size // 2, y + 1, False)
+        portal_sprites.add(portal)
+        portal_sprites.add(portal1)
+        level_map[y][-width // cell_size // 2] = 4
+        level_map[y + 1][-width // cell_size // 2] = 5
+        break

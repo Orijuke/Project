@@ -50,3 +50,22 @@ class Kit(pygame.sprite.Sprite):
     def set_pos(self, x, y):
         self.rect.x = x * cell_size
         self.rect.y = y * cell_size
+
+class Portal(pygame.sprite.Sprite):
+
+    top_image = load_image("portal_top.png")
+    down_image = load_image("portal_down.png")
+
+    def __init__(self, x, y, top):
+        super().__init__()
+        if top:
+            self.image = Portal.top_image
+        else:
+            self.image = Portal.down_image
+        self.rect = self.image.get_rect()
+        self.rect.x = x * cell_size
+        self.rect.y = y * cell_size
+
+    def set_pos(self, x, y):
+        self.rect.x = x * cell_size
+        self.rect.y = y * cell_size
