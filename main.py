@@ -109,4 +109,6 @@ while is_running:
             pygame.draw.rect(screen, pygame.Color(color), (20 + j * 2, 20 + i * 2, 2, 2))
     pygame.draw.rect(screen, pygame.Color('red'), (20 + player.x * 2, 20 + player.y * 2, 2, 2))
     pygame.draw.rect(screen, pygame.Color('black'), (20 + player.x * 2, 10, 2, 6))
+    for enemy in enemy_sprites:
+        pygame.draw.rect(screen, pygame.Color('brown'), (20 + enemy.x * 2, 20 + enemy.y * 2, 2, 2))
     pygame.display.flip()

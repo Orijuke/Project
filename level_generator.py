@@ -6,7 +6,7 @@ from block_class import Block, Spike, Kit, Portal
 
 ### air=-1 dirt=0 grass=1 spike=2 kit=3 portal=4 portal1=5
 
-level_length = width * 4 // cell_size
+level_length = int(width * 6 / cell_size)
 level_height = height // cell_size
 
 
@@ -53,7 +53,7 @@ for x in range(level_length):
     for y in range(level_height):
         if level_map[y + 1][x] == 1:
             if level_map[y][x] != 2:
-                need_to_be_placed = random.randrange(0, 20)
+                need_to_be_placed = random.randrange(0, 30)
                 if need_to_be_placed == 0:
                     kit = Kit(x, y)
                     kit_sprites.add(kit)

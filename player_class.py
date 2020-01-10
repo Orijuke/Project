@@ -36,7 +36,7 @@ class Enemy(pygame.sprite.Sprite):
         self.y = y
 
 
-player = Player(width // cell_size // 2, level_height // 2)
+player = Player(width // cell_size // 2, 0)
 body_sprites = pygame.sprite.Group()
 body_sprites.add(player)
 enemy_sprites = pygame.sprite.Group()
