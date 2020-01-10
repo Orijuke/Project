@@ -4,6 +4,7 @@ import random
 from level_generator import block_sprites, spike_sprites, kit_sprites, portal_sprites, level_map
 from player_class import player, body_sprites, enemy_sprites
 import pygame
+from minimap import draw_minimap
 
 from block_class import Block
 from load_image_function import load_image, cell_size, size, width, height
@@ -15,15 +16,14 @@ FPS = 30
 g = 10
 camera = Camera()
 
-
 step = 4
 
 step_dict = {
-                pygame.K_RIGHT: (step, 0),
-                pygame.K_LEFT: (-step, 0),
-                pygame.K_UP: (0, -step),
-                pygame.K_DOWN: (0, step)
-            }
+    pygame.K_RIGHT: (step, 0),
+    pygame.K_LEFT: (-step, 0),
+    pygame.K_UP: (0, -step),
+    pygame.K_DOWN: (0, step)
+}
 
 is_jump = False
 go_down = False
@@ -73,7 +73,6 @@ while is_running:
         body_sprites.update(event)
         enemy_sprites.update(event)
 
-
         if pygame.sprite.spritecollideany(player, spike_sprites):
             player.health -= 20
             player.score *= 1.002
@@ -93,22 +92,5 @@ while is_running:
     portal_sprites.draw(screen)
     body_sprites.draw(screen)
     enemy_sprites.draw(screen)
-    for i in range(len(level_map)):
-        for j in range(len(level_map[i])):
-            color = 'lightskyblue'
-            if level_map[i][j] == 0:
-                color = 'sienna'
-            if level_map[i][j] == 1:
-                color = 'darkgreen'
-            if level_map[i][j] == 2:
-                color = 'deeppink'
-            if level_map[i][j] == 3:
-                color = 'blue'
-            if level_map[i][j] == 4 or level_map[i][j] == 5:
-                color = 'yellow'
-            pygame.draw.rect(screen, pygame.Color(color), (20 + j * 2, 20 + i * 2, 2, 2))
-    pygame.draw.rect(screen, pygame.Color('red'), (20 + player.x * 2, 20 + player.y * 2, 2, 2))
-    pygame.draw.rect(screen, pygame.Color('black'), (20 + player.x * 2, 10, 2, 6))
-    for enemy in enemy_sprites:
-        pygame.draw.rect(screen, pygame.Color('brown'), (20 + enemy.x * 2, 20 + enemy.y * 2, 2, 2))
+    draw_minimap()
     pygame.display.flip()
