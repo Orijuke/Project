@@ -4,12 +4,14 @@ import random
 from level_generator import block_sprites, spike_sprites, kit_sprites, portal_sprites, level_map
 from player_class import player, body_sprites, enemy_sprites
 import pygame
-from minimap import draw_minimap
+from minimap import draw_minimap, health_bar, score_bar
 from technical_functions import camera_apply, sprites_draw, sprites_update
 
 from block_class import Block
 from load_image_function import load_image, cell_size, size, width, height
 from camera import Camera, camera
+
+pygame.init()
 
 screen = pygame.display.set_mode(size)
 clock = pygame.time.Clock()
@@ -55,14 +57,14 @@ while is_running:
             enemy.get_event(event)
 
         if pygame.sprite.spritecollideany(player, spike_sprites):
-            player.health -= 20
-            player.score *= 1.002
+            player.health -= 2
+            player.score *= 1.02
         if pygame.sprite.spritecollideany(player, kit_sprites):
-            player.health += 80
-            player.score /= 1.006
+            player.health += 8
+            player.score /= 1.06
         if pygame.sprite.spritecollideany(player, enemy_sprites):
-            player.health -= 40
-            player.score *= 1.004
+            player.health -= 4
+            player.score *= 1.04
         if pygame.sprite.spritecollideany(player, portal_sprites):
             is_running = False
 
@@ -71,4 +73,6 @@ while is_running:
 
     sprites_draw(screen)
     draw_minimap()
+    health_bar()
+    score_bar()
     pygame.display.flip()

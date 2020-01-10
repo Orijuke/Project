@@ -18,7 +18,7 @@ class Player(pygame.sprite.Sprite):
         self.rect.x = x * cell_size
         self.rect.y = y * cell_size
         self.health = 2000
-        self.score = 100
+        self.score = 1
         self.x = x
         self.y = y
 
@@ -43,15 +43,17 @@ class Enemy(pygame.sprite.Sprite):
     def get_event(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == pygame.BUTTON_LEFT:
-                Enemy.hit_sound.play()
+                #Enemy.hit_sound.play()
                 self.get_click(event.pos)
 
     def get_click(self, pos):
         if self.rect.collidepoint(pos):
             self.health -= 50
+            player.score *= 1.02
             print(self.health)
             if self.health <= 0:
-                Enemy.monster_death_sound.play()
+                #Enemy.monster_death_sound.play()
+                player.score *= 1.80
                 self.kill()
 
 player = Player(width // cell_size // 2, 0)

@@ -1,3 +1,4 @@
+
 from camera import camera
 from level_generator import block_sprites, portal_sprites, kit_sprites, spike_sprites
 from player_class import enemy_sprites, body_sprites
@@ -32,3 +33,4 @@ def sprites_draw(screen):
     portal_sprites.draw(screen)
     body_sprites.draw(screen)
     enemy_sprites.draw(screen)
+

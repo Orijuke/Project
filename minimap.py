@@ -25,3 +25,13 @@ def draw_minimap():
     pygame.draw.rect(screen, pygame.Color('black'), (20 + player.x * 2, 10, 2, 6))
     for enemy in enemy_sprites:
         pygame.draw.rect(screen, pygame.Color('brown'), (20 + enemy.x * 2, 20 + enemy.y * 2, 2, 2))
+
+def health_bar():
+    f = pygame.font.SysFont('serif', 30)
+    t = f.render('Health: ' + str(int(player.health)), 0, (0, 0, 0))
+    screen.blit(t, (10, 240))
+
+def score_bar():
+    f = pygame.font.SysFont('serif', 30)
+    t = f.render('Score: ' + str(int(player.score)), 0, (0, 0, 0))
+    screen.blit(t, (10, 270))
