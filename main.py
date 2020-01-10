@@ -5,16 +5,16 @@ from level_generator import block_sprites, spike_sprites, kit_sprites, portal_sp
 from player_class import player, body_sprites, enemy_sprites
 import pygame
 from minimap import draw_minimap
+from technical_functions import camera_apply, sprites_draw, sprites_update
 
 from block_class import Block
 from load_image_function import load_image, cell_size, size, width, height
-from camera import Camera
+from camera import Camera, camera
 
 screen = pygame.display.set_mode(size)
 clock = pygame.time.Clock()
 FPS = 30
 g = 10
-camera = Camera()
 
 step = 4
 
@@ -24,37 +24,6 @@ step_dict = {
     pygame.K_UP: (0, -step),
     pygame.K_DOWN: (0, step)
 }
-
-
-def camera_apply():
-    for sprite in block_sprites:
-        camera.apply(sprite)
-    for sprite in spike_sprites:
-        camera.apply(sprite)
-    for sprite in kit_sprites:
-        camera.apply(sprite)
-    for sprite in portal_sprites:
-        camera.apply(sprite)
-    for sprite in enemy_sprites:
-        camera.apply(sprite)
-
-
-def sprites_update():
-    block_sprites.update(event)
-    spike_sprites.update(event)
-    kit_sprites.update(event)
-    portal_sprites.update(event)
-    body_sprites.update(event)
-    enemy_sprites.update(event)
-
-
-def sprites_draw():
-    block_sprites.draw(screen)
-    spike_sprites.draw(screen)
-    kit_sprites.draw(screen)
-    portal_sprites.draw(screen)
-    body_sprites.draw(screen)
-    enemy_sprites.draw(screen)
 
 
 is_jump = False
@@ -80,7 +49,7 @@ while is_running:
             player.x -= shift[0] / cell_size
             player.y -= shift[1] / cell_size
             camera_apply()
-        sprites_update()
+        sprites_update(event)
 
         if pygame.sprite.spritecollideany(player, spike_sprites):
             player.health -= 20
@@ -98,6 +67,6 @@ while is_running:
 
     # обновляем положение всех спрайтов
 
-    sprites_draw()
+    sprites_draw(screen)
     draw_minimap()
     pygame.display.flip()

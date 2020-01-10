@@ -1,5 +1,6 @@
 from load_image_function import width, height, cell_size
 
+
 class Camera:
     # зададим начальный сдвиг камеры
     def __init__(self):
@@ -12,3 +13,6 @@ class Camera:
     # позиционировать камеру на объекте target
     def update(self, dx):
         self.dx = dx
+
+
+camera = Camera()
