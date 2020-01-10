@@ -25,6 +25,38 @@ step_dict = {
     pygame.K_DOWN: (0, step)
 }
 
+
+def camera_apply():
+    for sprite in block_sprites:
+        camera.apply(sprite)
+    for sprite in spike_sprites:
+        camera.apply(sprite)
+    for sprite in kit_sprites:
+        camera.apply(sprite)
+    for sprite in portal_sprites:
+        camera.apply(sprite)
+    for sprite in enemy_sprites:
+        camera.apply(sprite)
+
+
+def sprites_update():
+    block_sprites.update(event)
+    spike_sprites.update(event)
+    kit_sprites.update(event)
+    portal_sprites.update(event)
+    body_sprites.update(event)
+    enemy_sprites.update(event)
+
+
+def sprites_draw():
+    block_sprites.draw(screen)
+    spike_sprites.draw(screen)
+    kit_sprites.draw(screen)
+    portal_sprites.draw(screen)
+    body_sprites.draw(screen)
+    enemy_sprites.draw(screen)
+
+
 is_jump = False
 go_down = False
 jump_pos = 0
@@ -41,44 +73,24 @@ while is_running:
             camera.update(shift[0])
             player.x += shift[0] / cell_size
             player.y += shift[1] / cell_size
-            for sprite in block_sprites:
-                camera.apply(sprite)
-            for sprite in spike_sprites:
-                camera.apply(sprite)
-            for sprite in kit_sprites:
-                camera.apply(sprite)
-            for sprite in portal_sprites:
-                camera.apply(sprite)
-            for sprite in enemy_sprites:
-                camera.apply(sprite)
+            camera_apply()
         if pygame.sprite.spritecollideany(player, block_sprites):
             player.rect.y -= shift[1]
             camera.update(-shift[0])
             player.x -= shift[0] / cell_size
             player.y -= shift[1] / cell_size
-            for sprite in block_sprites:
-                camera.apply(sprite)
-            for sprite in spike_sprites:
-                camera.apply(sprite)
-            for sprite in kit_sprites:
-                camera.apply(sprite)
-            for sprite in portal_sprites:
-                camera.apply(sprite)
-            for sprite in enemy_sprites:
-                camera.apply(sprite)
-        block_sprites.update(event)
-        spike_sprites.update(event)
-        kit_sprites.update(event)
-        portal_sprites.update(event)
-        body_sprites.update(event)
-        enemy_sprites.update(event)
+            camera_apply()
+        sprites_update()
 
         if pygame.sprite.spritecollideany(player, spike_sprites):
             player.health -= 20
             player.score *= 1.002
         if pygame.sprite.spritecollideany(player, kit_sprites):
             player.health += 80
-            player.score /= 1.002
+            player.score /= 1.006
+        if pygame.sprite.spritecollideany(player, enemy_sprites):
+            player.health -= 40
+            player.score *= 1.004
         if pygame.sprite.spritecollideany(player, portal_sprites):
             is_running = False
 
@@ -86,11 +98,6 @@ while is_running:
 
     # обновляем положение всех спрайтов
 
-    block_sprites.draw(screen)
-    spike_sprites.draw(screen)
-    kit_sprites.draw(screen)
-    portal_sprites.draw(screen)
-    body_sprites.draw(screen)
-    enemy_sprites.draw(screen)
+    sprites_draw()
     draw_minimap()
     pygame.display.flip()

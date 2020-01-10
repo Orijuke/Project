@@ -2,6 +2,7 @@ from os import path
 import pygame
 from load_image_function import load_image, cell_size
 
+
 class Block(pygame.sprite.Sprite):
 
     grass_image = load_image("grass.png")
@@ -17,39 +18,32 @@ class Block(pygame.sprite.Sprite):
         self.rect.x = x * cell_size
         self.rect.y = y * cell_size
 
-    def set_pos(self, x, y):
-        self.rect.x = x * cell_size
-        self.rect.y = y * cell_size
 
-class Spike(pygame.sprite.Sprite):
+class Flower(pygame.sprite.Sprite):
 
     spike_image = load_image("spike.png")
-
-    def __init__(self, x, y):
-        super().__init__()
-        self.image = Spike.spike_image
-        self.rect = self.image.get_rect()
-        self.rect.x = x * cell_size
-        self.rect.y = y * cell_size
-
-    def set_pos(self, x, y):
-        self.rect.x = x * cell_size
-        self.rect.y = y * cell_size
-
-class Kit(pygame.sprite.Sprite):
-
     kit_image = load_image("kit.png")
 
     def __init__(self, x, y):
         super().__init__()
-        self.image = Kit.kit_image
         self.rect = self.image.get_rect()
         self.rect.x = x * cell_size
         self.rect.y = y * cell_size
 
-    def set_pos(self, x, y):
-        self.rect.x = x * cell_size
-        self.rect.y = y * cell_size
+
+class Spike(Flower):
+
+    def __init__(self, x, y):
+        self.image = Flower.spike_image
+        super().__init__(x, y)
+
+
+class Kit(Flower):
+
+    def __init__(self, x, y):
+        self.image = Flower.kit_image
+        super().__init__(x, y)
+
 
 class Portal(pygame.sprite.Sprite):
 
@@ -63,9 +57,5 @@ class Portal(pygame.sprite.Sprite):
         else:
             self.image = Portal.down_image
         self.rect = self.image.get_rect()
-        self.rect.x = x * cell_size
-        self.rect.y = y * cell_size
-
-    def set_pos(self, x, y):
         self.rect.x = x * cell_size
         self.rect.y = y * cell_size
