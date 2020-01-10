@@ -2,7 +2,7 @@ from os import path
 from random import randrange
 import random
 from level_generator import block_sprites, spike_sprites, kit_sprites, portal_sprites, level_map
-from player_class import player, body_sprites
+from player_class import player, body_sprites, enemy_sprites
 import pygame
 
 from block_class import Block
@@ -49,6 +49,8 @@ while is_running:
                 camera.apply(sprite)
             for sprite in portal_sprites:
                 camera.apply(sprite)
+            for sprite in enemy_sprites:
+                camera.apply(sprite)
         if pygame.sprite.spritecollideany(player, block_sprites):
             player.rect.y -= shift[1]
             camera.update(-shift[0])
@@ -62,11 +64,15 @@ while is_running:
                 camera.apply(sprite)
             for sprite in portal_sprites:
                 camera.apply(sprite)
+            for sprite in enemy_sprites:
+                camera.apply(sprite)
         block_sprites.update(event)
         spike_sprites.update(event)
         kit_sprites.update(event)
         portal_sprites.update(event)
         body_sprites.update(event)
+        enemy_sprites.update(event)
+
 
         if pygame.sprite.spritecollideany(player, spike_sprites):
             player.health -= 20
@@ -86,6 +92,7 @@ while is_running:
     kit_sprites.draw(screen)
     portal_sprites.draw(screen)
     body_sprites.draw(screen)
+    enemy_sprites.draw(screen)
     for i in range(len(level_map)):
         for j in range(len(level_map[i])):
             color = 'lightskyblue'

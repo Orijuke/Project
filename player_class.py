@@ -1,6 +1,7 @@
 import pygame
+import random
 
-from level_generator import level_height
+from level_generator import level_height, level_length
 from load_image_function import load_image, cell_size, width, height
 
 
@@ -19,26 +20,26 @@ class Player(pygame.sprite.Sprite):
         self.x = x
         self.y = y
 
-    def move(self, dy):
-        self.rect.y += dy
 
 class Enemy(pygame.sprite.Sprite):
 
-    player_image = load_image("player.png")
+    enemy_image = load_image("enemy.png")
 
     def __init__(self, x, y):
         super().__init__()
-        self.image = Player.player_image
+        self.image = Enemy.enemy_image
         self.rect = self.image.get_rect()
         self.rect.x = x * cell_size
         self.rect.y = y * cell_size
         self.health = 2000
-        self.score = 100
-
-    def move(self, dy):
-        self.rect.y += dy
+        self.x = x
+        self.y = y
 
 
 player = Player(width // cell_size // 2, level_height // 2)
 body_sprites = pygame.sprite.Group()
 body_sprites.add(player)
+enemy_sprites = pygame.sprite.Group()
+for n in range(20):
+    enemy = Enemy(random.randrange(width // cell_size, level_length - width // cell_size), 0)
+    enemy_sprites.add(enemy)
