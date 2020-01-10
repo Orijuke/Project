@@ -13,7 +13,7 @@ from camera import Camera, camera
 
 screen = pygame.display.set_mode(size)
 clock = pygame.time.Clock()
-FPS = 30
+FPS = 100
 g = 10
 
 step = 4
@@ -51,6 +51,9 @@ while is_running:
             camera_apply()
         sprites_update(event)
 
+        for enemy in enemy_sprites:
+            enemy.get_event(event)
+
         if pygame.sprite.spritecollideany(player, spike_sprites):
             player.health -= 20
             player.score *= 1.002
@@ -64,7 +67,6 @@ while is_running:
             is_running = False
 
     screen.fill(pygame.Color('lightskyblue'))
-
     # обновляем положение всех спрайтов
 
     sprites_draw(screen)
