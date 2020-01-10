@@ -65,7 +65,7 @@ while is_running:
         if pygame.sprite.spritecollideany(player, enemy_sprites):
             player.health -= 4
             player.score *= 1.04
-        if pygame.sprite.spritecollideany(player, portal_sprites):
+        if pygame.sprite.spritecollideany(player, portal_sprites) or player.health <= 0:
             is_running = False
 
     screen.fill(pygame.Color('lightskyblue'))
