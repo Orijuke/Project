@@ -1,7 +1,7 @@
 import pygame
 
 from level_generator import level_map
-from load_image_function import load_image, screen
+from load_image_function import load_image, screen, cell_size
 from player_class import player, enemy_sprites
 
 
@@ -20,7 +20,7 @@ def draw_minimap():
             if level_map[i][j] == 4 or level_map[i][j] == 5:
                 color = 'yellow'
             pygame.draw.rect(screen, pygame.Color(color), (20 + j * 2, 20 + i * 2, 2, 2))
-
+    print(player.x, player.rect.x)
     pygame.draw.rect(screen, pygame.Color('red'), (20 + player.x * 2, 20 + player.y * 2 + 1, 2, 2))
     pygame.draw.rect(screen, pygame.Color('black'), (20 + player.x * 2, 10, 2, 6))
     for enemy in enemy_sprites:

@@ -17,13 +17,13 @@ def camera_apply():
         camera.apply(sprite)
 
 
-def sprites_update(event):
-    block_sprites.update(event)
-    spike_sprites.update(event)
-    kit_sprites.update(event)
-    portal_sprites.update(event)
-    body_sprites.update(event)
-    enemy_sprites.update(event)
+def sprites_update():
+    block_sprites.update()
+    spike_sprites.update()
+    kit_sprites.update()
+    portal_sprites.update()
+    body_sprites.update()
+    enemy_sprites.update()
 
 
 def sprites_draw(screen):

@@ -23,9 +23,10 @@ class Player(pygame.sprite.Sprite):
         self.y = y
 
 
+
 class Enemy(pygame.sprite.Sprite):
 
-    #hit_sound = load_sound('hit.wav')
+    #hit_sound = load_sound('hit.ogg')
     #monster_death_sound = load_sound('monster_death.wav')
 
     enemy_image = load_image("enemy.png")
