@@ -15,7 +15,7 @@ pygame.init()
 
 screen = pygame.display.set_mode(size)
 clock = pygame.time.Clock()
-FPS = 30
+FPS = 100
 speed = 1
 ticks = 0
 
@@ -50,10 +50,10 @@ def jump_event():
     global is_jump, dy
     dy -= g
     player.rect.y -= dy
-    player.y -= dy / cell_size
+    player.y = player.rect.y / cell_size
     while pygame.sprite.spritecollideany(player, block_sprites):
         player.rect.y -= 1
-        player.y -= 1 / cell_size
+        player.y = player.rect.y / cell_size
         is_jump = False
         dy = 0
 
@@ -64,18 +64,18 @@ def collision_detector():
         player.rect.y -= shift[1]
         camera.update(-shift[0])
         player.x -= shift[0] / cell_size
-        player.y -= shift[1] / cell_size
+        player.y = player.rect.y / cell_size
         camera_apply()
     sprites_update()
     if pygame.sprite.spritecollideany(player, spike_sprites):
         player.health -= 2
-        player.score *= 1.02
+        player.score += 0.2
     if pygame.sprite.spritecollideany(player, kit_sprites):
         player.health += 8
-        player.score /= 1.06
+        player.score -= 0.6
     if pygame.sprite.spritecollideany(player, enemy_sprites):
         player.health -= 4
-        player.score *= 1.04
+        player.score += 0.4
     if pygame.sprite.spritecollideany(player, portal_sprites) or player.health <= 0:
         is_running = False
 
@@ -98,13 +98,12 @@ while is_running:
                 player.rect.y += shift[1]
             camera.update(shift[0])
             player.x += shift[0] / cell_size
-            player.y += shift[1] / cell_size
+            player.y = player.rect.y / cell_size
             camera_apply()
         collision_detector()
 
     screen.fill(pygame.Color('lightskyblue'))
     # обновляем положение всех спрайтов
-
     sprites_draw(screen)
     draw_minimap()
     health_bar()

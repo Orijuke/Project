@@ -49,12 +49,12 @@ class Enemy(pygame.sprite.Sprite):
 
     def get_click(self, pos):
         if self.rect.collidepoint(pos):
-            self.health -= 50
-            player.score *= 1.02
+            self.health -= 200
+            player.score += 0.2
             print(self.health)
             if self.health <= 0:
                 #Enemy.monster_death_sound.play()
-                player.score *= 1.80
+                player.score += 1.80
                 self.kill()
 
 player = Player(width // cell_size // 2, 0)
