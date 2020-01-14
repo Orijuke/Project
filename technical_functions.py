@@ -1,7 +1,7 @@
 
 from camera import camera
 from level_generator import block_sprites, portal_sprites, kit_sprites, spike_sprites
-from player_class import enemy_sprites, body_sprites
+from player_class import body_sprites, enemy_sprites
 
 
 def camera_apply():

@@ -43,6 +43,7 @@ def handle_events():
         if event.type == pygame.QUIT:
             is_running = False
         for enemy in enemy_sprites:
+
             enemy.get_event(event)
 
 
@@ -79,15 +80,15 @@ def collision_detector():
     if pygame.sprite.spritecollideany(player, portal_sprites) or player.health <= 0:
         is_running = False
 
+def enemies_make_steps():
+    for enemy in enemy_sprites:
+        enemy.make_step()
+
 
 while is_running:
     handle_events()
     clock.tick(FPS)
-    ticks += 1
-    if ticks > FPS / speed:
-
-        ticks = 0
-    jump_event()
+    enemies_make_steps()
     pressed = pygame.key.get_pressed()
     for key, shift in step_dict.items():
         if pressed[key]:
@@ -101,7 +102,7 @@ while is_running:
             player.y = player.rect.y / cell_size
             camera_apply()
         collision_detector()
-
+    jump_event()
     screen.fill(pygame.Color('lightskyblue'))
     # обновляем положение всех спрайтов
     sprites_draw(screen)

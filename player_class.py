@@ -1,6 +1,9 @@
+import math
+
 import pygame
 import random
 
+from camera import camera
 from level_generator import level_height, level_length
 from load_image_function import load_image, cell_size, width, height, load_sound
 
@@ -8,7 +11,6 @@ pygame.mixer.init()
 
 
 class Player(pygame.sprite.Sprite):
-
     player_image = load_image("player.png")
 
     def __init__(self, x, y):
@@ -23,9 +25,7 @@ class Player(pygame.sprite.Sprite):
         self.y = y
 
 
-
 class Enemy(pygame.sprite.Sprite):
-
     hit_sound = load_sound('hit.ogg')
     monster_death_sound = load_sound('m_death.ogg')
 
@@ -40,6 +40,7 @@ class Enemy(pygame.sprite.Sprite):
         self.health = 2000
         self.x = x
         self.y = y
+        self.cr = True
 
     def get_event(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN:
@@ -56,10 +57,25 @@ class Enemy(pygame.sprite.Sprite):
                 player.score += 1.80
                 self.kill()
 
+    def make_step(self):
+        dx = (self.x - player.x)
+        dy = (self.y - player.y)
+        c = math.sqrt(dx ** 2 + dy ** 2)
+        if c < width / cell_size / 2 and c != 0:
+            ky = dy / c
+            kx = dx / c
+            D = width // cell_size // 2 - player.x
+            print(D)
+            self.rect.x -= 2 * kx
+            self.rect.y -= 2 * ky
+            self.x = self.rect.x / cell_size
+            self.y = self.rect.y / cell_size
+
+
 player = Player(width // cell_size // 2, 0)
 body_sprites = pygame.sprite.Group()
 body_sprites.add(player)
 enemy_sprites = pygame.sprite.Group()
 for n in range(20):
-    enemy = Enemy(random.randrange(width // cell_size, level_length - width // cell_size), 0)
+    enemy = Enemy(random.randrange(width // cell_size, level_length - width // cell_size), random.randrange(0, 5))
     enemy_sprites.add(enemy)
