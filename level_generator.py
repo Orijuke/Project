@@ -41,7 +41,7 @@ for y in range(level_height):
 for x in range(level_length):
     for y in range(level_height):
         if level_map[y + 1][x] == 1:
-            need_to_be_placed = random.randrange(0, 5)
+            need_to_be_placed = random.randrange(0, 10)
             if need_to_be_placed == 0:
                 spike = Spike(x, y)
                 spike_sprites.add(spike)

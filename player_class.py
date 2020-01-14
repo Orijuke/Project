@@ -26,8 +26,8 @@ class Player(pygame.sprite.Sprite):
 
 class Enemy(pygame.sprite.Sprite):
 
-    #hit_sound = load_sound('hit.ogg')
-    #monster_death_sound = load_sound('monster_death.wav')
+    hit_sound = load_sound('hit.ogg')
+    monster_death_sound = load_sound('m_death.ogg')
 
     enemy_image = load_image("enemy.png")
 
@@ -44,16 +44,15 @@ class Enemy(pygame.sprite.Sprite):
     def get_event(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == pygame.BUTTON_LEFT:
-                #Enemy.hit_sound.play()
+                Enemy.hit_sound.play()
                 self.get_click(event.pos)
 
     def get_click(self, pos):
         if self.rect.collidepoint(pos):
-            self.health -= 200
+            self.health -= 400
             player.score += 0.2
-            print(self.health)
             if self.health <= 0:
-                #Enemy.monster_death_sound.play()
+                Enemy.monster_death_sound.play()
                 player.score += 1.80
                 self.kill()
 

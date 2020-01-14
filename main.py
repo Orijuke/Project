@@ -8,7 +8,7 @@ from minimap import draw_minimap, health_bar, score_bar
 from technical_functions import camera_apply, sprites_draw, sprites_update
 
 from block_class import Block
-from load_image_function import load_image, cell_size, size, width, height
+from load_image_function import load_image, cell_size, size, width, height, load_sound
 from camera import Camera, camera
 
 pygame.init()
@@ -20,7 +20,7 @@ speed = 1
 ticks = 0
 
 step = 4
-g = step / 4
+g = step / 2
 
 step_dict = {
     pygame.K_RIGHT: (step, 0),
@@ -68,14 +68,14 @@ def collision_detector():
         camera_apply()
     sprites_update()
     if pygame.sprite.spritecollideany(player, spike_sprites):
-        player.health -= 2
+        player.health -= 10
         player.score += 0.2
     if pygame.sprite.spritecollideany(player, kit_sprites):
         player.health += 8
-        player.score -= 0.6
+        player.score -= 0.1
     if pygame.sprite.spritecollideany(player, enemy_sprites):
-        player.health -= 4
-        player.score += 0.4
+        player.health -= 40
+        player.score += 0.6
     if pygame.sprite.spritecollideany(player, portal_sprites) or player.health <= 0:
         is_running = False
 
@@ -93,7 +93,7 @@ while is_running:
         if pressed[key]:
             if key == pygame.K_UP and not is_jump:
                 is_jump = True
-                dy = 10
+                dy = 15
             else:
                 player.rect.y += shift[1]
             camera.update(shift[0])
