@@ -23,10 +23,10 @@ step = 4
 g = step / 2
 
 step_dict = {
-    pygame.K_RIGHT: (step, 0),
-    pygame.K_LEFT: (-step, 0),
-    pygame.K_UP: (0, -step),
-    pygame.K_DOWN: (0, step)
+    pygame.K_d: (step, 0),
+    pygame.K_a: (-step, 0),
+    pygame.K_w: (0, -step),
+    pygame.K_s: (0, step)
 }
 
 is_jump = False
@@ -92,9 +92,9 @@ while is_running:
     pressed = pygame.key.get_pressed()
     for key, shift in step_dict.items():
         if pressed[key]:
-            if key == pygame.K_UP and not is_jump:
+            if key == pygame.K_w and not is_jump:
                 is_jump = True
-                dy = 15
+                dy = 17
             else:
                 player.rect.y += shift[1]
             camera.update(shift[0])

@@ -30,6 +30,10 @@ class Enemy(pygame.sprite.Sprite):
     monster_death_sound = load_sound('m_death.ogg')
 
     enemy_image = load_image("enemy.png")
+    enemy_image_one = load_image("enemy1.png")
+    enemy_image_two = load_image("enemy2.png")
+    enemy_image_three = load_image("enemy3.png")
+    enemy_image_four = load_image("enemy4.png")
 
     def __init__(self, x, y):
         super().__init__()
@@ -52,6 +56,16 @@ class Enemy(pygame.sprite.Sprite):
         if self.rect.collidepoint(pos):
             self.health -= 400
             player.score += 0.2
+            print(self.health)
+            if self.health <= 400:
+                self.image = Enemy.enemy_image_four
+            elif self.health <= 800:
+                self.image = Enemy.enemy_image_three
+            elif self.health <= 1200:
+                self.image = Enemy.enemy_image_two
+            elif self.health <= 1600:
+                self.image = Enemy.enemy_image_one
+
             if self.health <= 0:
                 Enemy.monster_death_sound.play()
                 player.score += 1.80
@@ -68,7 +82,6 @@ class Enemy(pygame.sprite.Sprite):
             kx = dx / c
             self.rect.x -= 2 * kx
             self.rect.y -= 2 * ky
-            print(player.x, player.rect.x)
             self.x = self.rect.x / cell_size + player_dx
             self.y = self.rect.y / cell_size
             #print('A', self.x, self.rect.x / cell_size)
