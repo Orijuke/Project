@@ -58,18 +58,21 @@ class Enemy(pygame.sprite.Sprite):
                 self.kill()
 
     def make_step(self):
-        dx = (self.x - player.x)
-        dy = (self.y - player.y)
+        dx = (self.rect.x - player.rect.x) / cell_size
+        dy = (self.rect.y - player.rect.y) / cell_size
         c = math.sqrt(dx ** 2 + dy ** 2)
+        player_dx = player.x - width / cell_size / 2
         if c < width / cell_size / 2 and c != 0:
+            #print('B', self.x, self.rect.x / cell_size)
             ky = dy / c
             kx = dx / c
-            D = width // cell_size // 2 - player.x
-            print(D)
             self.rect.x -= 2 * kx
             self.rect.y -= 2 * ky
-            self.x = self.rect.x / cell_size
+            print(player.x, player.rect.x)
+            self.x = self.rect.x / cell_size + player_dx
             self.y = self.rect.y / cell_size
+            #print('A', self.x, self.rect.x / cell_size)
+
 
 
 player = Player(width // cell_size // 2, 0)

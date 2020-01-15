@@ -43,7 +43,6 @@ def handle_events():
         if event.type == pygame.QUIT:
             is_running = False
         for enemy in enemy_sprites:
-
             enemy.get_event(event)
 
 
@@ -80,6 +79,7 @@ def collision_detector():
     if pygame.sprite.spritecollideany(player, portal_sprites) or player.health <= 0:
         is_running = False
 
+
 def enemies_make_steps():
     for enemy in enemy_sprites:
         enemy.make_step()
@@ -99,7 +99,6 @@ while is_running:
                 player.rect.y += shift[1]
             camera.update(shift[0])
             player.x += shift[0] / cell_size
-            player.y = player.rect.y / cell_size
             camera_apply()
         collision_detector()
     jump_event()
