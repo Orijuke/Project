@@ -6,12 +6,15 @@ from player_class import player, body_sprites, enemy_sprites
 import pygame
 from minimap import draw_minimap, health_bar, score_bar
 from technical_functions import camera_apply, sprites_draw, sprites_update
+from screens import start_screen, end_screen, terminate, player_score
 
 from block_class import Block
 from load_image_function import load_image, cell_size, size, width, height, load_sound
 from camera import Camera, camera
 
 pygame.init()
+
+start_screen()
 
 screen = pygame.display.set_mode(size)
 clock = pygame.time.Clock()
@@ -60,7 +63,6 @@ def jump_event():
         dy = 0
 
 
-
 def collision_detector():
     global is_running
     if pygame.sprite.spritecollideany(player, block_sprites):
@@ -79,8 +81,14 @@ def collision_detector():
     if pygame.sprite.spritecollideany(player, enemy_sprites):
         player.health -= 40
         player.score += 0.6
-    if pygame.sprite.spritecollideany(player, portal_sprites) or player.health <= 0:
+    if pygame.sprite.spritecollideany(player, portal_sprites):
         is_running = False
+        end_screen(player.score, True)
+    if player.score < 0:
+        player.score = 0
+    if player.health <= 0 or player.rect.y > 800:
+        is_running = False
+        end_screen(player.score, False)
 
 
 def enemies_make_steps():
@@ -105,8 +113,6 @@ while is_running:
             player.x += shift[0] / cell_size
             camera_apply()
         collision_detector()
-    if player.rect.y > 800:
-        is_running = False
     jump_event()
     screen.fill(pygame.Color('lightskyblue'))
     # обновляем положение всех спрайтов
@@ -115,3 +121,6 @@ while is_running:
     health_bar()
     score_bar()
     pygame.display.flip()
+
+
+terminate()
