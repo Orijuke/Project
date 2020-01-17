@@ -19,6 +19,8 @@ FPS = 100
 speed = 1
 ticks = 0
 
+jump_sound = load_sound('jump.ogg')
+
 step = 4
 g = step / 2
 
@@ -58,6 +60,7 @@ def jump_event():
         dy = 0
 
 
+
 def collision_detector():
     global is_running
     if pygame.sprite.spritecollideany(player, block_sprites):
@@ -94,6 +97,7 @@ while is_running:
         if pressed[key]:
             if key == pygame.K_w and not is_jump:
                 is_jump = True
+                jump_sound.play()
                 dy = cell_size * 0.75
             else:
                 player.rect.y += shift[1]
@@ -101,6 +105,8 @@ while is_running:
             player.x += shift[0] / cell_size
             camera_apply()
         collision_detector()
+    if player.rect.y > 800:
+        is_running = False
     jump_event()
     screen.fill(pygame.Color('lightskyblue'))
     # обновляем положение всех спрайтов

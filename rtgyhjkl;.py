@@ -1,6 +1,7 @@
 from os import path
 import sys
 import pygame
+from main import main_game
 
 
 def load_image(name):
@@ -103,8 +104,6 @@ def terminate():
     sys.exit()
 
 
-def main_game():
-    pass
     # your code
 
 
