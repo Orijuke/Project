@@ -94,7 +94,7 @@ while is_running:
         if pressed[key]:
             if key == pygame.K_w and not is_jump:
                 is_jump = True
-                dy = 17
+                dy = cell_size * 0.75
             else:
                 player.rect.y += shift[1]
             camera.update(shift[0])

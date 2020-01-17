@@ -4,7 +4,7 @@ import pygame
 pygame.mixer.init()
 
 size = width, height = 1200, 600
-cell_size = 20
+cell_size = 30
 screen = pygame.display.set_mode(size)
 
 def load_image(name):
