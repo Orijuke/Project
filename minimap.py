@@ -1,6 +1,6 @@
 import pygame
 
-from level_generator import level_map
+from level_map import level_map
 from load_image_function import load_image, screen, cell_size
 from player_class import player, enemy_sprites
 

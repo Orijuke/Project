@@ -76,22 +76,34 @@ class Enemy(pygame.sprite.Sprite):
         dy = (self.rect.y - player.rect.y) / cell_size
         c = math.sqrt(dx ** 2 + dy ** 2)
         player_dx = player.x - width / cell_size / 2
-        if c < width / cell_size / 2 and c != 0:
-            #print('B', self.x, self.rect.x / cell_size)
+        if c < width / cell_size / 2 * 1.2 and c != 0:
             ky = dy / c
             kx = dx / c
             self.rect.x -= 2 * kx
             self.rect.y -= 2 * ky
             self.x = self.rect.x / cell_size + player_dx
             self.y = self.rect.y / cell_size
-            #print('A', self.x, self.rect.x / cell_size)
 
 
+player = None
 
-player = Player(width // cell_size // 2, 0)
+
+def new_player():
+    global player
+    player = Player(width // cell_size // 2, 0)
+
+
+new_player()
+
+
+def new_enemies():
+    for n in range(20):
+        enemy = Enemy(random.randrange(width // cell_size, level_length - width // cell_size), random.randrange(0, 5))
+        enemy_sprites.add(enemy)
+
+
 body_sprites = pygame.sprite.Group()
 body_sprites.add(player)
 enemy_sprites = pygame.sprite.Group()
-for n in range(20):
-    enemy = Enemy(random.randrange(width // cell_size, level_length - width // cell_size), random.randrange(0, 5))
-    enemy_sprites.add(enemy)
+
+new_enemies()

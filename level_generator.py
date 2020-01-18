@@ -28,46 +28,50 @@ block_sprites = pygame.sprite.Group()
 spike_sprites = pygame.sprite.Group()
 kit_sprites = pygame.sprite.Group()
 portal_sprites = pygame.sprite.Group()
-level_map = generate_level()
 
-# blocks
-for y in range(level_height):
+
+def place_blocks(level_map):
+    global block_sprites, spike_sprites, kit_sprites, portal_sprites
+    # blocks
+    for y in range(level_height):
+        for x in range(level_length):
+            if level_map[y][x] != -1:
+                block = Block(x, y, level_map[y][x])
+                block_sprites.add(block)
+
+    # spikes
     for x in range(level_length):
-        if level_map[y][x] != -1:
-            block = Block(x, y, level_map[y][x])
-            block_sprites.add(block)
-
-# spikes
-for x in range(level_length):
-    for y in range(level_height):
-        if level_map[y + 1][x] == 1:
-            need_to_be_placed = random.randrange(0, 10)
-            if need_to_be_placed == 0:
-                spike = Spike(x, y)
-                spike_sprites.add(spike)
-                level_map[y][x] = 2
-            break
-
-# kits
-for x in range(level_length):
-    for y in range(level_height):
-        if level_map[y + 1][x] == 1:
-            if level_map[y][x] != 2:
-                need_to_be_placed = random.randrange(0, 30)
+        for y in range(level_height):
+            if level_map[y + 1][x] == 1:
+                need_to_be_placed = random.randrange(0, 10)
                 if need_to_be_placed == 0:
-                    kit = Kit(x, y)
-                    kit_sprites.add(kit)
-                    level_map[y][x] = 3
+                    spike = Spike(x, y)
+                    spike_sprites.add(spike)
+                    level_map[y][x] = 2
+                break
+
+    # kits
+    for x in range(level_length):
+        for y in range(level_height):
+            if level_map[y + 1][x] == 1:
+                if level_map[y][x] != 2:
+                    need_to_be_placed = random.randrange(0, 30)
+                    if need_to_be_placed == 0:
+                        kit = Kit(x, y)
+                        kit_sprites.add(kit)
+                        level_map[y][x] = 3
+                break
+
+    # portals
+    for y in range(level_height):
+        if level_map[y + 2][-width // cell_size // 2] == 1:
+            print(True)
+            portal = Portal(level_length - width // cell_size // 2, y, True)
+            portal1 = Portal(level_length - width // cell_size // 2, y + 1, False)
+            portal_sprites.add(portal)
+            portal_sprites.add(portal1)
+            level_map[y][-width // cell_size // 2] = 4
+            level_map[y + 1][-width // cell_size // 2] = 5
             break
 
-# portals
-for y in range(level_height):
-    if level_map[y + 2][-width // cell_size // 2] == 1:
-        print(True)
-        portal = Portal(level_length - width // cell_size // 2, y, True)
-        portal1 = Portal(level_length - width // cell_size // 2, y + 1, False)
-        portal_sprites.add(portal)
-        portal_sprites.add(portal1)
-        level_map[y][-width // cell_size // 2] = 4
-        level_map[y + 1][-width // cell_size // 2] = 5
-        break
+    return level_map
