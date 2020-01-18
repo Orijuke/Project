@@ -6,7 +6,7 @@ from player_class import player, body_sprites, enemy_sprites
 import pygame
 from minimap import draw_minimap, health_bar, score_bar
 from technical_functions import camera_apply, sprites_draw, sprites_update
-from screens import start_screen, end_screen, terminate, player_score
+from screens import player_score, terminate, end_screen, start_screen
 
 from block_class import Block
 from load_image_function import load_image, cell_size, size, width, height, load_sound
@@ -14,7 +14,6 @@ from camera import Camera, camera
 
 pygame.init()
 
-start_screen()
 
 screen = pygame.display.set_mode(size)
 clock = pygame.time.Clock()
@@ -22,9 +21,11 @@ FPS = 100
 speed = 1
 ticks = 0
 
+start_screen()
+
 jump_sound = load_sound('jump.ogg')
 
-step = 4
+step = cell_size // 5
 g = step / 2
 
 step_dict = {
@@ -73,13 +74,13 @@ def collision_detector():
         camera_apply()
     sprites_update()
     if pygame.sprite.spritecollideany(player, spike_sprites):
-        player.health -= 10
+        player.health -= 2
         player.score += 0.2
     if pygame.sprite.spritecollideany(player, kit_sprites):
-        player.health += 8
+        player.health += 4
         player.score -= 0.1
     if pygame.sprite.spritecollideany(player, enemy_sprites):
-        player.health -= 40
+        player.health -= 4
         player.score += 0.6
     if pygame.sprite.spritecollideany(player, portal_sprites):
         is_running = False
