@@ -76,19 +76,20 @@ def collision_detector(shift):
         camera_apply()
     sprites_update()
     if pygame.sprite.spritecollideany(player, spike_sprites):
-        player.health -= 2
+        player.health -= 10
         player.score += 0.2
     if pygame.sprite.spritecollideany(player, kit_sprites):
-        player.health += 4
+        player.health += 20
         player.score -= 0.1
     if pygame.sprite.spritecollideany(player, enemy_sprites):
-        player.health -= 4
+        player.health -= 10
         player.score += 0.6
     if pygame.sprite.spritecollideany(player, portal_sprites):
         end_screen(player.score, True)
     if player.score < 0:
         player.score = 0
     if player.health <= 0 or player.rect.y > 800:
+        print(player.health)
         end_screen(player.score, False)
 
 
@@ -100,6 +101,7 @@ def enemies_make_steps():
 def main_game():
     global is_jump, dy
     while True:
+        print(player.y, player.rect.y)
         handle_events()
         clock.tick(FPS)
         enemies_make_steps()
@@ -127,7 +129,6 @@ def main_game():
 
 
 player_score = 0
-
 
 
 def start_screen():
@@ -162,7 +163,6 @@ def start_screen():
                 terminate()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RETURN:
-                    main_game()
                     return
         text_cord = [0, 0]
         rect = fon_image.get_rect()
@@ -206,6 +206,9 @@ def end_screen(score, win):
                     new_map()
                     new_player()
                     new_enemies()
+                    player.health = 2000
+                    player.score = 0
+                    print(body_sprites)
                     main_game()
                     return
         text_cord = [0, 0]

@@ -5,7 +5,7 @@ import random
 
 from camera import camera
 from level_generator import level_height, level_length
-from load_image_function import load_image, cell_size, width, height, load_sound
+from load_image_function import load_image, cell_size, width, height, load_sound, screen
 
 pygame.mixer.init()
 
@@ -56,7 +56,6 @@ class Enemy(pygame.sprite.Sprite):
         if self.rect.collidepoint(pos):
             self.health -= 400
             player.score += 0.2
-            print(self.health)
             if self.health <= 400:
                 self.image = Enemy.enemy_image_four
             elif self.health <= 800:
@@ -90,20 +89,23 @@ player = None
 
 def new_player():
     global player
+    for player in body_sprites:
+        player.kill()
+        player = None
     player = Player(width // cell_size // 2, 0)
-
-
-new_player()
+    body_sprites.add(player)
 
 
 def new_enemies():
+    for enemy in enemy_sprites:
+        enemy.kill()
     for n in range(20):
         enemy = Enemy(random.randrange(width // cell_size, level_length - width // cell_size), random.randrange(0, 5))
         enemy_sprites.add(enemy)
 
 
 body_sprites = pygame.sprite.Group()
-body_sprites.add(player)
 enemy_sprites = pygame.sprite.Group()
 
+new_player()
 new_enemies()
