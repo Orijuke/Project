@@ -5,7 +5,7 @@ from load_image_function import load_image, screen, cell_size
 from player_class import player, enemy_sprites
 
 
-def draw_minimap():
+def draw_minimap(player, level_map):
     for i in range(len(level_map)):
         for j in range(len(level_map[i])):
             color = 'lightskyblue'
@@ -25,12 +25,12 @@ def draw_minimap():
     for enemy in enemy_sprites:
         pygame.draw.rect(screen, pygame.Color('brown'), (20 + enemy.x * 2, 20 + enemy.y * 2, 2, 2))
 
-def health_bar():
+def health_bar(player):
     f = pygame.font.SysFont('serif', 30)
     t = f.render('Health: ' + str(int(player.health)), 0, (0, 0, 0))
     screen.blit(t, (10, 240))
 
-def score_bar():
+def score_bar(player):
     f = pygame.font.SysFont('serif', 30)
     t = f.render('Score: ' + str(int(player.score)), 0, (0, 0, 0))
     screen.blit(t, (10, 270))

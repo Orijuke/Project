@@ -11,7 +11,7 @@ from level_generator import level_length, generate_level, place_blocks
 from block_class import Block
 from load_image_function import load_image, cell_size, size, width, height, load_sound
 from camera import Camera, camera
-from level_map import new_map
+from level_map import new_map, level_map
 
 pygame.init()
 
@@ -89,7 +89,6 @@ def collision_detector(shift):
     if player.score < 0:
         player.score = 0
     if player.health <= 0 or player.rect.y > 800:
-        print(player.health)
         end_screen(player.score, False)
 
 
@@ -100,8 +99,9 @@ def enemies_make_steps():
 
 def main_game():
     global is_jump, dy
+
     while True:
-        print(player.y, player.rect.y)
+        print(player.health, player.score)
         handle_events()
         clock.tick(FPS)
         enemies_make_steps()
@@ -122,9 +122,9 @@ def main_game():
         screen.fill(pygame.Color('lightskyblue'))
         # обновляем положение всех спрайтов
         sprites_draw(screen)
-        draw_minimap()
-        health_bar()
-        score_bar()
+        draw_minimap(player, level_map)
+        health_bar(player)
+        score_bar(player)
         pygame.display.flip()
 
 
@@ -174,7 +174,7 @@ def start_screen():
 
 
 def end_screen(score, win):
-    global player_score
+    global player_score, level_map, player
     if win and score > player_score:
         player_score = score
     font = pygame.font.Font(None, 30)
@@ -203,12 +203,9 @@ def end_screen(score, win):
                 terminate()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RETURN:
-                    new_map()
-                    new_player()
+                    level_map = new_map()
+                    player = new_player()
                     new_enemies()
-                    player.health = 2000
-                    player.score = 0
-                    print(body_sprites)
                     main_game()
                     return
         text_cord = [0, 0]

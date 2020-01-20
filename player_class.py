@@ -89,11 +89,13 @@ player = None
 
 def new_player():
     global player
+    player = None
     for player in body_sprites:
         player.kill()
-        player = None
+
     player = Player(width // cell_size // 2, 0)
     body_sprites.add(player)
+    return player
 
 
 def new_enemies():
@@ -107,5 +109,5 @@ def new_enemies():
 body_sprites = pygame.sprite.Group()
 enemy_sprites = pygame.sprite.Group()
 
-new_player()
+player = new_player()
 new_enemies()
