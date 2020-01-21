@@ -101,7 +101,6 @@ def main_game():
     global is_jump, dy
 
     while True:
-        print(player.health, player.score)
         handle_events()
         clock.tick(FPS)
         enemies_make_steps()
